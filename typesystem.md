@@ -3,18 +3,18 @@
 ```
 dpi=1920,1080;//(横向,纵向)分辨率
 
-avatar_pos=200,540;//头像左上角(横向,纵向)位置
+avatar_pos=200,540;//头像中间(横向,纵向)位置
 
 image_multiple=250;//图片大小倍数*100
 
-textbox_pos=0,900;//文本框位置
+textbox_pos=0,900;//文本框中间位置
 textbox_transparency=50;//文本框透明度*100
 textbox_rgb=2,3,3;//文本框颜色
 
 font_size=12;//字体大小
 
 button_size=400,50;//按钮(长度,宽度)
-button_pos=640,200;//(如果只有一个按钮时)按钮左上角(横向,纵向)位置
+button_pos=640,200;//(如果只有一个按钮时)按钮中间(横向,纵向)位置
 button_dist=100;//按钮左上角之间距离
 button_transparency=50;//按钮透明度*100
 button_rgb=2,3,3;//按钮颜色
@@ -229,7 +229,12 @@ hide(image) : action
 play(music) : action
 say(character,string) : action
 say(character,string,music) : action//可选的music表示需要更换的声音
-select(menu) : action
+menu(option) : action
+menu(option,option) : action
+menu(option,option,option) : action
+menu(option,option,option,option) : action
+menu(option,option,option,option,option) : action
+menu(option,option,option,option,option,option) : action
 action\action : action//连接两个动作//cont(,)
 if bool then action else action : action//if(,,)
 
@@ -274,20 +279,14 @@ start=scene("sky.jpg",silent,
 );
 ```
 
-###menu
+###option
 
-通过select(menu)形成一个action供给玩家在若干个选项中选择.
+通过menu(option,...)形成一个action供给玩家在若干个选项中选择.
 
-当选项过多时会无法显示, 这在编译时不会检测.
+当选项超过6个时会编译错误.
 
 ```
 string->action : option//arrow(,)
-menu(option) : menu
-menu(option,option) : menu
-menu(option,option,option) : menu
-menu(option,option,option,option) : menu
-menu(option,option,option,option,option) : menu
-menu(option,option,option,option,option,option) : menu
 
 --SAMPLE--
 
@@ -312,6 +311,7 @@ main=start\scene1\if (score>5) then goodend else badend;
 --SUBTYPING--
 
 scene <: frame
+
 ```
 
  
