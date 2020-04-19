@@ -36,7 +36,7 @@ eval的输入是一个语法树, 每个子树会被求值成一段中间代码�
 
 维护计数器buum, inum, 按照后根遍历求值.
 
-##优先级
+## 优先级
 
 ()
 
@@ -64,7 +64,7 @@ eval的输入是一个语法树, 每个子树会被求值成一段中间代码�
 
 同优先级从左往右计算.
 
-##关键字
+## 关键字
 
 bool int string image music action menu frame
 
@@ -163,9 +163,9 @@ b="bb";//definition of string
 ref string <: string
 ```
 
-##simple types
+## simple types
 
-###image
+### image
 
 一张图片(的地址), 可以是jpg, png, bmp后缀.
 
@@ -279,7 +279,7 @@ start=scene("sky.jpg",silent,
 );
 ```
 
-###option
+### option
 
 通过menu(option,...)形成一个action供给玩家在若干个选项中选择.
 
