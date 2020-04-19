@@ -184,23 +184,30 @@ struct node
 node *root;
 node* build_syntaxtree(int l,int r)
 {
-	if (exp[r]!=')') {fprintf(stderr,"error while reading syntaxtree.\n");exit(1);}
+	if (exp[r]!=')')
+	{
+		node *now=new node(exp.substr(l,r-l+1));
+		return now;
+	}
 	int mid=l;while ((mid<r)&&(exp[mid]!='(')) mid++;
 	if (mid==r) {fprintf(stderr,"error while reading syntaxtree.\n");exit(1);}
 	node *now=new node(exp.substr(l,mid-l));
 	l=mid+1;
 	for (int ns=1;;ns++)
 	{
-		mid=l;int in_str=0;
-		while (((exp[mid]!=',')||(in_str))&&(mid!=r))
+		mid=l;int in_str=0,dlt=0;
+		while (((exp[mid]!=',')||(in_str)||(dlt!=0))&&(mid!=r))
 		{
 			if (in_str==2) in_str=1;
-			else if (*pos=='\"') in_str^=1;
-			else if (*pos=='\\') in_str+=(in_str==1);
+			else if (exp[mid]=='\"') in_str^=1;
+			else if (exp[mid]=='\\') in_str+=(in_str==1);
+			else if ((exp[mid]=='(')&&(!in_str)) dlt++;
+			else if ((exp[mid]==')')&&(!in_str)) dlt--;
 			mid++;
 		}
 		now->sons(ns)=build_syntaxtree(l,mid-1);
 		l=mid+1;
+		if (l>r) break;
 	}
 	return now;
 }
@@ -218,9 +225,9 @@ void addpara(string s)
 
 void init(FILE* input)
 {
-	fgets(buf,MAXLEN,input);buflen=strlen(buf);
+	int buflen=fread(buf,1,MAXLEN,input);buf[buflen]='\0'; 
 	int j=0;
-	for (int i=0;i<buflen;i++) if ((buf[i]!=' ')&&(buf[i]!='\r')&&(buf[i]!='\n')) buf[j++]=buf[i];
+	for (int i=0;i<buflen;i++) if ((buf[i]!=' ')&&(buf[i]!='\r')&&(buf[i]!='\n')&&(buf[i]!='\t')) buf[j++]=buf[i];
 	buf[j]='\0';buflen=j;
 	
 	addpara("left");addpara("right");addpara("top");addpara("bottom");
@@ -228,10 +235,11 @@ void init(FILE* input)
 	addpara("medium");
 	addpara("custom1");addpara("custom2");addpara("custom3");addpara("custom4");
 	
+	pos=buf; 
 	read_header();
 	read_precondition();
 	read_syntaxtree();
-	if (*pos!='\0') {fprintf(stderr,"unknown end of file.\n");exit(1);}
+	//if (*pos!='\0') {fprintf(stderr,"unknown end of file.\n");exit(1);}
 }
 
 void lkback(list<string> &p,list<string> &q)
@@ -318,7 +326,7 @@ void generate_intermediate_code(node *now=root)
 		now->ret=++snum;
 		now->res.push_back("assign "+to_string(snum)+" "+op);
 	}
-	else if (op=="cancat")
+	else if (op=="concat")
 	{
 		lkback(now->res,now->s1->res,now->s2->res);
 		now->ret=++snum;
@@ -455,7 +463,7 @@ void generate_intermediate_code(node *now=root)
 		lkback(now->res,now->s2->res);
 		now->res.push_back("label "+to_string(lnum));
 	}
-	else {fprintf(stderr,"unknown syntax tree node.\n");exit(1);}
+	else {fprintf(stderr,"unknown syntax tree node.\n");cerr<<op<<endl;exit(1);}
 }
 
 void post_process(FILE *output)
@@ -474,6 +482,7 @@ void post_process(FILE *output)
 }
 int main()
 {
+	freopen("log.txt","w",stderr);
 	FILE *input=fopen("syntax_tree.txt","r");
 	FILE *output=fopen("intermediate_code.txt","w");
 	init(input);

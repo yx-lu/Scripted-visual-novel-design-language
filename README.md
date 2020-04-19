@@ -27,3 +27,6 @@ style c stroke:#000,stroke-width:8px
 
 ```
 
+## intermediate code generator
+
+intermediate_code_generator.cpp编译成的intermediate_code_generator可执行文件从syntax_tree.txt中读入数据, 在intermediate_code.txt中输出数据, 若有错误会返回1并在log.txt中输出错误信息.

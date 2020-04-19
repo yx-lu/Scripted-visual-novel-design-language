@@ -1,0 +1,104 @@
+```
+dpi=1920,1080;
+
+avatar_pos=200,540;
+
+image_multiple=250;
+
+textbox_pos=0,900;
+textbox_transparency=50;
+textbox_rgb=2,3,3;
+
+font_size=12;
+
+button_size=400,50;
+button_pos=640,200;
+button_dist=100;
+button_transparency=50;
+button_rgb=2,3,3;
+
+left=1,1;
+right=1,1;
+top=1,1;
+bottom=1,1;
+topleft=1,1;
+topright=1,1;
+bottomleft=1,1;
+bottomright=1,1;
+medium=1,1;
+```
+```
+i1 = 0;
+i2 = 0;
+b1 = false;
+b2 = false;
+```
+
+contframe(
+contframe(
+contframe(
+contframe(
+contframe(
+contframe(
+contframe(
+scene("pku_campus.jpg","opening.mp3",
+    cont(say(nobody, "今天是2019年9月9日，新学期开始的第一天"),
+    say(nobody, "下午第一节课便是ICS，你早已听说过它的种种传闻，今天终于能见到真面貌"))
+),
+
+scene("pku_classroom.jpg",silent,
+    cont(cont(cont(
+    play("bell.mp3"),
+    say(nobody, "老师开始上课了，由于第一节课比较水，你有些走神开始张望四周")),
+    say(nobody, "坐在你旁边的是陌生的G同学")),
+    menu(arrow("和他对话",mov(i2,add(1,i2))),
+         arrow("继续听课",nop)))
+)),
+
+ifframe(geq(i2,1),scene("pku_classroom.jpg",silent,
+    cont(cont(cont(
+    say(character("you","you.jpg"),"你也是大二的嘛，好像以前没有见过你呢"),
+    say(character("G","G.jpg"),"真是不好意思，我已经大三了。去年学不下去中期退课了，只好今年回来重修。","dialogue1.mp3")),
+    play("embarrassing.mp3")),
+    say(nobody,"你们通过一节课愉快的交谈成为了好朋友"))
+),blank)),
+
+scene("pku_dorm.jpg","easy.mp3",
+    cont(say(nobody,"今天的课很快就结束了"),
+    say(character("you","you.jpg"),"害看起来也没用多难嘛"))
+)),
+
+scene("pku_dorm.jpg","sleepy.mp3",
+    cont(cont(cont(cont(
+    say(nobody,"今天是周三的早上，第一节早课便是ICS"),
+    say(nobody,"8:00开始上课，你现在还躺在床上")),
+    show("alarm_7_59.jpg",left)),
+    play("alarm.mp3")),
+    menu(arrow("太困了，就再睡5min",nop),
+         arrow("立马起身去教室",set(b1,true)),
+         arrow("起来后先吃个早饭再去",cont(set(b1,true),set(b2,true))),
+         arrow("我是凑数的选项",nop)))
+)),
+
+ifframe(b2,scene("songlin.jpg","bird.mp3",
+    cont(cont(cont(cont(
+    say(character("you","you.jpg"),"吃完早餐真是元气满满的一天呢"),
+    say(nobody,"你吃完饭赶去上课了，虽然只听到了一半，但记忆异常清晰")),
+    show("pku_classroom.jpg")),
+    mov(i1,add(i1,1))),
+    if(or(or(or(b2,false),diff("a","a")),same("abc","abc123"))
+    ,say(character("G","G.jpg"),concat("这是今天的笔记借给你看看吧","别像我一样到时候退课了"),"happy.mp3"),nop))
+    ),blank)),
+
+scene("pku_dorm.jpg","hard.mp3",say(nobody,"马上要期中考试了，你在卑微的复习"))),
+
+ifframe(and(b1,geq(i1,1)),
+        scene("nm1.jpg","sigh.mp3",
+              cont(say(nobody,"你考得还算不错，等待你的是更多的lab以及更难的课"),halt)),
+        ifframe(b1,
+                scene("nm1.jpg","sigh.mp3",
+                cont(say(nobody,"你勉强通过了期中考试，等待你的是更多的lab以及更难的课"),halt)),
+                scene("be1.jpg","be1.mp3",
+                cont(say(nobody,"由于实在学不下去，你选择了中期退课"),halt)))
+       )
+	   );
