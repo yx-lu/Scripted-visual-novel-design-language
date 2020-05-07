@@ -46,13 +46,15 @@ eval的输入是一个语法树, 每个子树会被求值成一段中间代码�
 
 \+ -
 
-&
-
-|
-
 < > <= >= 
 
 != ==
+
+&
+
+^
+
+|
 
 :=
 
@@ -236,7 +238,7 @@ menu(option,option,option,option) : action
 menu(option,option,option,option,option) : action
 menu(option,option,option,option,option,option) : action
 action\action : action//连接两个动作//cont(,)
-if bool then action else action : action//if(,,)
+if bool then {action} else {action} : action//if(,,)
 
 --SAMPLE--
 
@@ -302,7 +304,7 @@ a=menu(
 
 ```
 frame\frame : frame//contframe(,)
-if bool then frame else frame : frame//ifframe(,,)
+if bool then {frame} else {frame} : frame//ifframe(,,)
 
 --SAMPLE--
 

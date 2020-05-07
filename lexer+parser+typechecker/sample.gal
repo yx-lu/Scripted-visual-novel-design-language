@@ -1,23 +1,33 @@
 ```
-dpi=1920,1080//(横向,纵向)分辨率
+dpi=1920,1080;
 
-avatar_pos=200,540//头像左上角(横向,纵向)位置
+avatar_pos=200,540;
 
-image_multiple=2.5//图片大小倍数
+image_multiple=250;
 
-textbox_pos=0,900//文本框位置
-textbox_transparency=0.5//文本框透明度
-textbox_rgb=2,3,3//文本框颜色
+textbox_pos=0,900;
+textbox_transparency=50;
+textbox_rgb=2,3,3;
 
-font_size=12//字体大小
+font_size=12;
 
-button_size=400,50//按钮(长度,宽度)
-button_pos=640,200//(如果只有一个按钮时)按钮左上角(横向,纵向)位置
-button_dist=100//按钮左上角之间距离
-button_transparency=0.5//按钮透明度
-button_rgb=2,3,3//按钮颜色
+button_size=400,50;
+button_pos=640,200;
+button_dist=100;
+button_transparency=50;
+button_rgb=2,3,3;
+
+left=1,1;
+right=1,1;
+top=1,1;
+bottom=1,1;
+topleft=1,1;
+topright=1,1;
+bottomleft=1,1;
+bottomright=1,1;
+medium=1,1;
 ```
-
+;
 var knowledge = 0x0;
 var PASS = false;
 var happyG = 0;
@@ -27,7 +37,7 @@ G_ch = character("G","G.jpg");
 
 start_1 = scene("pku_campus.jpg","opening.mp3",
 	say(nobody, "今天是2019年9月9日，新学期开始的第一天")\
-	say(nobody, "下午第一节课便是ICS，你早已听说过它的种种传闻，今天终于能见到真面貌")\
+	say(nobody, "下午第一节课便是ICS，你早已听说过它的种种传闻，今天终于能见到真面貌")
 );
 
 start_2 = scene("pku_classroom.jpg",silent,
@@ -70,9 +80,9 @@ hidden_1 = scene("songlin.jpg","bird.mp3",
 	say(nobody,"你吃完饭赶去上课了，虽然只听到了一半，但记忆异常清晰")\
 	show("pku_classroom.jpg")\
 	knowledge:=knowledge+1\
-	if (happyG | false | "a"!="a" | "abc" == "abc123") 
-	then say(G_ch,"这是今天的笔记借给你看看吧"+"别像我一样到时候退课了","happy.mp3")	
-	else nop
+	if (happyG > 0 | false | "a"!="a" | "abc" == "abc123") 
+	then {say(G_ch,"这是今天的笔记借给你看看吧"+"别像我一样到时候退课了","happy.mp3")	}
+	else {nop}
 );
 
 bad_end1 = scene("be1.jpg","be1.mp3",
@@ -90,13 +100,13 @@ normal_end2 = scene("nm1.jpg","sigh.mp3",
 	halt
 );
 
-branch_1 = if happyG>=1 then mid_1 else blank;
+branch_1 = if happyG>=1 then {mid_1} else {blank};
 
-branch_2 = if HIDDEN then hidden_1 else blank;
+branch_2 = if HIDDEN then {hidden_1} else {blank};
 
-branch_3 = if (PASS & knowledge>=1) then normal_end2
-		   else if (PASS) then normal_end1
-       	   else bad_end1;
+branch_3 = if (PASS & knowledge>=1) then {normal_end2}
+		   else {if (PASS) then {normal_end1}
+       	   else {bad_end1}};
 
 main = start_1\start_2\
        branch_1\
@@ -104,6 +114,4 @@ main = start_1\start_2\
        start_4\
        branch_2\
        start_5\
-       branch_3\
-       halt
-
+       branch_3;
