@@ -49,3 +49,25 @@ $ ./f <input file name>  > <output file name>
 由于一些处理的问题，目前错误信息中的行号是从header的` ``` `后下一行开始计算
 
 P.S. 对syntax做了一些小的修改，反映在了typesystem.md中，此外目前header后需要一个额外分号，示例可以见文件夹中的sample.gal，在此基础上生成了syntax_tree.txt，并且利用intermediate code generator生成了intermediate_code.txt，至少这部分都通过了。可能还有微小的问题，但需要通过其它样例程序来调试。
+
+## visualize
+
+一行一行地执行中间代码进行可视化
+
+### 所需要的package
+Pygame 1.9.6
+Pillow(PIL) 7.1.1 
+
+### 使用方式
+此时已生成中间代码（intermediate_code.txt）：
+
+```
+$ python run.py
+```
+
+若有错误会输出错误（指明中间代码哪一行出错及错误类型）并终止运行
+
+成功则会得到该视觉小说
+
+### 推荐header参数
+参见sample_header.txt
