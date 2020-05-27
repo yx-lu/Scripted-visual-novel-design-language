@@ -31,18 +31,12 @@ endif
 #
 OBJS = support.cmo syntax.cmo core.cmo parser.cmo lexer.cmo main.cmo
 
-# Eliminating Some Subtyping Rules
-OBJS2 = support.cmo syntax.cmo ccore.cmo parser.cmo lexer.cmo main2.cmo
-
 # Files that need to be generated from other files
 DEPEND += lexer.ml parser.ml 
 
 # When "make" is invoked with no arguments, we build an executable 
 # typechecker, after building everything that it depends on
 all: $(DEPEND) $(OBJS) f
-
-# Eliminating Some Subtyping Rules
-safe: $(DEPEND) $(OBJS2) f2
 
 # On a Windows machine, we do exactly the same except that the executable
 # file that gets built needs to have the extension ".exe"
@@ -55,11 +49,6 @@ include .depend
 f: $(OBJS) main.cmo 
 	@echo Linking $@
 	ocamlc -o $@ $(COMMONOBJS) $(OBJS) 
-
-# Eliminating Some Subtyping Rules
-f2: $(OBJS2) main2.cmo 
-	@echo Linking $@
-	ocamlc -o f $(COMMONOBJS) $(OBJS2) 
 
 # Build an executable typechecker for Windows
 f.exe: $(OBJS) main.cmo 
