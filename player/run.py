@@ -9,6 +9,7 @@ import numpy as np
 
 intermediate_home = os.path.abspath("./intermediate_code.txt")
 
+with open(intermediate_home, 'r', encoding= 'utf-8') as f:
     lines = f.readlines()
 
 params = lines[1].split()
