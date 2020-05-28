@@ -61,11 +61,7 @@ while True:
         if params[1] == 'image':
             temp = int(params[2])
             if temp == 0:
-                if len(params) == 3:
-                    pass
-                else:
-                    print('illegal parameter numbers in line %d' % (index + 1))
-                    raise SystemExit
+                pass
             else:
                 name = var_s[temp]
 
@@ -123,9 +119,11 @@ while True:
             raise SystemExit
     elif params[0] == 'hide':
         if len(params) == 2:
-            name = var_s[int(params[1])]
-            item.delete_image(name)
-            item.update()
+            temp = int(params[1])
+            if temp:
+                name = var_s[int(params[1])]
+                item.delete_image(name)
+                item.update()
         else:
             print('illegal parameter numbers in line %d' % (index+1))
             raise SystemExit
@@ -226,7 +224,7 @@ while True:
             raise SystemExit
     elif params[0] == 'mov':
         if len(params) == 3:
-            var_b[int(params[1])] = int(params[2])
+            var_i[int(params[1])] = int(params[2])
         else:
             print('illegal parameter numbers in line %d' % (index+1))
             raise SystemExit
@@ -278,6 +276,24 @@ while True:
         while(lines[index][temp_end-1] == "\\"):
             temp_end = lines[index].find('"', temp_end+1)
         var_s[int(params[1])] = lines[index][temp_start:temp_end]
+    elif params[0] == 'cpi':
+        if len(params) == 3:
+            var_i[int(params[1])] = var_i[int(params[2])]
+        else:
+            print('illegal parameter numbers in line %d' % (index+1))
+            raise SystemExit
+    elif params[0] == 'cpb':
+        if len(params) == 3:
+            var_b[int(params[1])] = var_b[int(params[2])]
+        else:
+            print('illegal parameter numbers in line %d' % (index+1))
+            raise SystemExit
+    elif params[0] == 'cps':
+        if len(params) == 3:
+            var_s[int(params[1])] = var_s[int(params[2])]
+        else:
+            print('illegal parameter numbers in line %d' % (index+1))
+            raise SystemExit
     elif params[0] == 'label':
         if len(params) == 2:
             pass
